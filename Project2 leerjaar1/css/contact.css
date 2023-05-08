@@ -1,0 +1,169 @@
+html{
+    font-family: Arial;
+  }
+#voornaam
+{
+    height: 30px;
+    text-align: center;
+}
+
+#achternaam
+{
+    height: 30px;
+    text-align: center;
+}
+
+#mail
+{
+    height: 30px;
+    text-align: center;
+}
+
+
+
+#grid_contact
+{
+    margin-left: 50px;
+    margin-top: 50px;
+    display: grid;
+    row-gap: 50px;
+    grid-template-columns: 1fr 1.5fr 0.5fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+    "form map openingstijden"
+    "btn gegevens  ."
+}
+
+#form
+{
+    grid-area: form;
+}
+
+#gegevens
+{
+    grid-area: gegevens;
+    margin-left: 80px;
+}
+
+#map
+{
+    grid-area: map;
+    height: 300px;
+    width: 350px;
+}
+
+#openingstijden
+{
+    grid-area: openingstijden;
+}
+
+#btn
+{
+    grid-area: btn;
+}
+
+@media only screen and (max-width: 600px) {
+
+    #grid_contact
+{
+    margin-left: 0px;
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+    "form"
+    "btn"
+    "map"
+    "gegevens"
+    "openingstijden"
+}
+
+#form
+{
+    grid-area: form;
+    justify-self: center;
+}
+
+#gegevens
+{
+    grid-area: gegevens;
+    justify-self: center;
+}
+
+#maps
+{
+    grid-area: map;
+    justify-self: center;
+}
+
+#openingstijden
+{
+    grid-area: openingstijden;
+    justify-self: center;
+    margin-right: 50px;
+}
+
+#btn
+{
+    grid-area: btn;
+    justify-self: center;
+    margin-top: 0px;
+}
+
+}
+
+
+
+
+@media only screen and (min-width: 600px) and (max-width: 1000px) {
+
+    #grid_contact
+{
+    margin-left: 0px;
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+    "form"
+    "btn"
+    "map"
+    "gegevens"
+    "openingstijden"
+}
+
+#form
+{
+    grid-area: form;
+    justify-self: center;
+}
+
+#gegevens
+{
+    grid-area: gegevens;
+    justify-self: center;
+    margin-right: 100px;
+}
+
+#maps
+{
+    grid-area: map;
+    justify-self: center;
+}
+
+#openingstijden
+{
+    grid-area: openingstijden;
+    justify-self: center;
+    margin-right: 80px;
+}
+
+#btn
+{
+    grid-area: btn;
+    justify-self: center;
+    margin-top: 0px;
+}
+
+}

@@ -1,0 +1,151 @@
+<!DOCTYPE html>                                      
+<html lang="nl"> 
+<head> 
+	<title> Youtube CRUD</title> 
+	<meta charset="utf-8" /> 
+	<style>
+        div, footer, form {margin-top: 20px;}
+        input, select {margin-top: 5px; width: 40%; padding: 2px;}
+		body  {width : 80%; max-width:600px; margin: auto; margin-top:50px;}
+		th,td {text-align : left; padding-right:10px;}
+		div {width : 100%;}
+		label {width: 20%;display: inline-block;}
+		td:last-child {color : red; cursor: pointer;}
+	</style>	
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script> 
+</head> 
+<body onload="load()"> 
+    <h1>Youtube CRUD</h1>  
+	<table><tr><th>Title</th><th>Uploaded On</th><th>Likes</th><th>Channel</th></tr>
+		<tbody id="tabelInhoud"/>
+	</table>
+	<div>
+		<label>Title:</label><input type="text" placeholder="title" id="title" required/><br/>
+		<label>Uploaded on:</label><input type="text" placeholder="upload date" id="uploaded_on" /><br/>
+		<label>Likes:</label><input type="number" placeholder="likes" id="likes" min="0" max="99999999"/><br/>
+		<label>Channel:</label><select id="selectInhoud" ></select>
+		<button id="confirmButton" onclick="addVideo()">Toevoegen</button>
+	</div>
+	<footer>&copy; 2023</footer> 
+</body>
+
+	<script>												
+		"use strict"
+        const apiRoot = "http://127.0.0.1:8000/api/"
+        const apiVideos = apiRoot + "videos/"
+        const apiChannels = apiRoot + "channels/"
+		
+		let channels = []
+		let videos = []
+		let video = ""
+
+		const loadChannels = async () => {                           
+            const response = await axios.get(apiChannels)
+            const json = await response.data
+			let selectInhoud = ''
+			json.map(el => {
+				channels[el.id] = el.name 
+				selectInhoud += `<option value="${el.id}">${el.name}</option>`
+			})
+			document.querySelector("#selectInhoud").innerHTML = selectInhoud
+			console.log(channels)
+		}
+		
+		const loadVideos = async () => {
+			console.log('Load videos')
+            const response = await axios.get(apiVideos)
+            videos = await response.data
+		}
+
+		const loadVideo = async (id) => {
+			console.log('Load video')
+			console.log(`${apiVideos}${id}`)
+            const response = await axios.get(`${apiVideos}${id}`)
+            video = await response.data
+			fillUpdateForm(video)
+		}
+
+		const viewVideos = () => {
+			let tabelInhoud = ''
+			videos.map(el => tabelInhoud += `<tr><td>${el.title}</td><td>${el.uploaded_on}</td><td>${el.likes}</td>
+								<td>${channels[el.channel_id]}</td><td><button onclick="loadVideo(${el.id})">Update</button></td><td onclick="verwijder(${el.id})"> x </td></tr>`) 
+			document.querySelector("#tabelInhoud").innerHTML = tabelInhoud
+		}
+
+		const load = async () => {
+			await loadChannels()
+			await loadVideos()
+			viewVideos()
+		}
+
+		const addVideo = async () => {
+			const title     = document.querySelector("#title").value
+			const likes = document.querySelector("#likes").value
+			const uploaded_on = document.querySelector("#uploaded_on").value
+			const channel_id  = document.querySelector("#selectInhoud").value
+			const jsonstring = {"title":title, "likes":likes, "uploaded_on":uploaded_on, "channel_id":channel_id}
+			console.log("voeg toe: ",jsonstring)
+			const response = await axios.post(apiVideos, jsonstring, {headers: {'Content-Type': 'application/json'}})
+			console.log('status code', response.status)
+			document.querySelector("#title").value = '';
+			document.querySelector("#likes").value = '';
+			document.querySelector("#uploaded_on").value = '';
+			await loadVideos()
+			viewVideos()
+		}
+
+		function fillUpdateForm(video) {
+			const confirm = document.querySelector("#confirmButton")
+			const title = document.querySelector("#title")
+			const likes = document.querySelector("#likes")
+			const uploaded_on = document.querySelector("#uploaded_on")
+			const channel_id  = document.querySelector("#selectInhoud")
+
+			confirm.innerText = "Update"
+			confirm.setAttribute( "onClick", `javascript: updateVideo(${video["id"]});` );
+			title.value = video["title"]
+			likes.value = video["likes"]
+			uploaded_on.value = video["uploaded_on"]
+			// Nog aanpasssen naar channel naam!!
+			channel_id.value = video["channel_id"]
+			// console.log(JSON.stringify(video))
+
+			// const jsonstring = {"title":title, "likes":likes, "uploaded_on":uploaded_on, "channel_id":channel_id}
+			// console.log("voeg toe: ",jsonstring)
+			// const response = await axios.post(apiVideos, jsonstring, {headers: {'Content-Type': 'application/json'}})
+			// console.log('status code', response.status)
+		}
+
+		const updateVideo = async (id) => {
+			console.log("update: ",id)
+			const confirm = document.querySelector("#confirmButton")
+			const title = document.querySelector("#title")
+			const likes = document.querySelector("#likes")
+			const uploaded_on = document.querySelector("#uploaded_on")
+			const channel_id  = document.querySelector("#selectInhoud").value;
+
+			console.log("1")
+			const response = await axios.put(`${apiVideos}${id}`, { "title": title.value, "likes": likes.value, "uploaded_on": uploaded_on.value, "channel_id": channel_id}, { headers: {'Content-Type': 'application/json'}})	
+			console.log("2")
+			//console.log('status code', response.status)
+			title.value = '';
+			likes.value = '';
+			uploaded_on.value = '';
+			confirm.setAttribute( "onClick", "javascript: addVideo();" );
+			confirm.value = "Toevoegen"
+			console.log("3")
+			await loadVideos()
+			console.log("4")
+			viewVideos()
+			console.log("5")
+		}
+
+		const verwijder = async (id) => {
+			console.log("verwijder: ",id)
+			const response = await axios.delete(apiVideos+id)
+			console.log('status code', response.status)
+			await loadVideos()
+			viewVideos()
+		}
+	</script>	
+</html>

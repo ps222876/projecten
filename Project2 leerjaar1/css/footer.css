@@ -1,0 +1,263 @@
+.footer
+{
+    display: block;
+    background-color: lightblue;
+    position: relative;
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-bottom: -10px;
+    height: 200px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 0.3fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+    "een twee drie vier"
+    "zeven zes vijf ."
+    "img1 img1 img1 img1"
+
+}
+
+a:hover{
+    color: white;
+}
+
+a{
+    text-decoration: none;
+    color:white;
+}
+
+#een
+{
+    grid-area: een;
+}
+
+#twee
+{
+    grid-area: twee;
+}
+
+#drie
+{
+    grid-area: drie;
+}
+
+#vier
+{
+    grid-area: vier;
+}
+
+#vijf
+{
+    grid-area: vijf;
+}
+
+#zes
+{
+    grid-area: zes;
+}
+
+#zeven
+{
+    grid-area: zeven;
+}
+
+#img1 {
+    grid-area: img1;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 90px;
+    width: 75px;
+    height: auto;
+    animation: footer1 10s infinite linear;
+ }
+ #img2 {
+    grid-area: img1;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 90px;
+    width: 75px;
+    height: auto;
+    animation: footer2 10s infinite linear;
+ }
+
+
+ @keyframes footer1 {
+    0%   {margin-left: 0%; opacity: 1;}
+    25%  { opacity: 1;}
+    45%  { opacity: 1;}
+    50%  {margin-left: 95%; opacity: 0;} 
+    75%  { opacity: 0;}
+    100% {margin-left: 0%; opacity: 0;}
+    }
+
+    @keyframes footer2 {
+        0%   {margin-left: 0%; opacity: 0;}
+        25%  { opacity: 0;}
+        50%  {margin-left: 100%; opacity: 0;} 
+        55%  { opacity: 1;}
+        90% { opacity: 1;}
+        100% {margin-left: 00%; opacity: 0;}
+        }
+        
+
+
+
+    @media only screen and (max-width: 600px) {
+        .footer
+{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+    "copyright contact"
+    "alv e-mail"
+    ". facebook"
+    "kvk over_ons"
+    "img1 img1"
+    
+
+}
+
+a{
+    text-decoration: none;
+    color:white;
+}
+
+#copyright
+{
+  
+    grid-area: copyright;
+}
+
+#over_ons
+{
+  
+    grid-area: over_ons;
+}
+
+#e-mail
+{
+   
+    grid-area: e-mail;
+}
+
+#facebook
+{
+
+    grid-area: facebook;
+}
+
+#alv
+{
+  
+    grid-area: alv;
+}
+
+#contact
+{
+
+    grid-area: contact;
+}
+
+#kvk
+{
+  
+    grid-area: kvk;
+}
+
+#img1 {
+    grid-area: img1;
+
+ }
+ #img2 {
+    grid-area: img1;
+ }
+
+
+    }
+
+
+
+
+
+
+
+@media only screen and (min-width: 600px) and (max-width: 1000px) {
+
+.footer
+{
+    display: grid;
+    grid-template-columns: 1fr 0.5fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+    "copyright . contact"
+    "alv . e-mail"
+    ". . facebook"
+    "kvk . over_ons"
+    "img1 img1 img1"
+    
+
+}
+
+a{
+    text-decoration: none;
+    color:white;
+}
+
+#copyright
+{
+  
+    grid-area: copyright;
+}
+
+#over_ons
+{
+  
+    grid-area: over_ons;
+}
+
+#e-mail
+{
+   
+    grid-area: e-mail;
+}
+
+#facebook
+{
+
+    grid-area: facebook;
+}
+
+#alv
+{
+  
+    grid-area: alv;
+}
+
+#contact
+{
+
+    grid-area: contact;
+}
+
+#kvk
+{
+  
+    grid-area: kvk;
+}
+
+#img1 {
+    grid-area: img1;
+
+ }
+ #img2 {
+    grid-area: img1;
+ }
+
+
+
+
+
+}

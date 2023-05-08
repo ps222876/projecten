@@ -1,0 +1,153 @@
+html{
+    font-family: Arial;
+  }
+#body_verhuur
+{
+    margin-top: 50px;
+    margin-left: 50px;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+    "afb1 tabel afb2"
+    ". btn ."
+    "footer footer footer"
+   
+}
+
+
+#tabel
+{
+    grid-area: tabel;
+    justify-self: center;
+}
+
+#afb1
+{
+    height: 200px;
+    grid-area: afb1;
+}
+
+#afb2
+{
+    height: 200px;
+    grid-area: afb2;
+}
+
+#btn
+{
+    grid-area: btn;
+    width: 200px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    background: green;
+    margin-left: 40px;
+}
+
+@media only screen and (max-width: 600px) {
+    #body_verhuur
+{
+    margin-top: 50px;
+    margin-left: 50px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+    "afb1"
+    "tabel"
+    "afb2"
+    "btn"
+}
+
+
+
+
+
+#tabel
+{
+    grid-area: tabel;
+    margin-bottom: 50px;
+    justify-self: center;
+}
+
+
+#afb1
+{
+    height: 200px;
+    grid-area: afb1;
+    justify-self: center;
+    margin-bottom: 50px;
+    width: 60%;
+}
+
+#afb2
+{
+    height: 200px;
+    grid-area: afb2;
+    justify-self: center;
+    margin-bottom: 50px;
+    width: 60%;
+}
+
+#btn
+{
+    grid-area: btn;
+    width: 200px;
+    height: 35px;
+    justify-self: center;
+
+}
+    
+
+}
+    
+
+
+
+
+
+@media only screen and (min-width: 600px) and (max-width: 1000px) {
+
+#body_verhuur
+{
+    margin-top: 50px;
+    margin-left: 50px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+    "afb1"
+    "tabel"
+    "afb2"
+}
+
+
+
+#tabel
+{
+    grid-area: tabel;
+    margin-bottom: 50px;
+    justify-self: center;
+}
+
+
+#afb1
+{
+    height: 200px;
+    grid-area: afb1;
+    justify-self: center;
+    margin-bottom: 50px;
+}
+
+#afb2
+{
+    height: 200px;
+    grid-area: afb2;
+    justify-self: center;
+    margin-bottom: 50px;
+}
+
+
+    
+
+}

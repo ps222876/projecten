@@ -1,0 +1,171 @@
+html{
+    font-family: Arial;
+  }
+.body_fietsen
+{
+    display: block;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+    " form1  form2 "
+    " form3  form4 "    
+}
+
+
+.btn_style
+{
+    border: 3px;
+    border-style: solid;
+    border-color: black;
+}
+
+
+#form1
+{
+    grid-area: form1;
+    margin-top: 50px;
+    justify-self: center;
+
+}
+
+#form2
+{
+    grid-area: form2;
+    margin-top: 50px;
+    justify-self: center;
+
+}
+
+#form3
+{
+    grid-area: form3;
+    justify-self: center;
+    margin-bottom: 50px;
+
+
+}
+
+#form4
+{
+    grid-area: form4;
+    justify-self: center;
+    margin-bottom: 50px;
+
+}
+
+
+#fiets1
+{
+    height: 100px;
+    width: 150px;
+}
+
+#fiets2
+{
+    height: 100px;
+    width: 150px;
+}
+
+#fiets3
+{
+    height: 100px;
+    width: 150px;
+}
+
+#fiets4
+{
+    height: 100px;
+    width: 150px;
+}
+
+#tekst1
+{
+    text-align: center;
+}
+
+
+#tekst2
+{
+    margin-bottom: 100px;
+    text-align: center;
+
+}
+
+#tekst3
+{
+    text-align: center;
+}
+
+
+#tekst4
+{
+    text-align: center;
+}
+
+@media only screen and (max-width: 600px) {
+
+    .body_fietsen
+{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+    "form1" 
+    "form2"
+    "form3"
+    "form4"
+}
+
+#form1
+{   
+    grid-area: form1;
+}
+
+
+#fiets1
+{
+    grid-area: fiets1;
+}
+
+
+#fiets2
+{
+    grid-area: fiets2;
+}
+
+#fiets3
+{
+    grid-area: fiets3;
+}
+
+#fiets4
+{
+    grid-area: fiets4;
+}
+
+
+#tekst1
+{
+    grid-area: tekst1;
+}
+
+#tekst2
+{
+    grid-area: tekst2;
+
+}
+
+#tekst3
+{
+    grid-area: tekst3;
+}
+
+#tekst4
+{
+    grid-area: tekst4;
+    margin-left: 20px;
+}
+
+
+}

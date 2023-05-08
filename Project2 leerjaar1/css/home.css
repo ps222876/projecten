@@ -1,0 +1,189 @@
+   html{
+     font-family: Arial;
+   }
+   .body_home
+   {
+       display: grid;
+       column-gap: 50px;
+       grid-template-columns: 1fr 1fr 0.9fr;
+       grid-template-rows: auto;
+       grid-template-areas:
+       "welkom slider open_dicht1"
+
+   }
+
+   #welkom
+   {
+       grid-area: welkom;
+       margin-top: 50px;
+   }
+
+   #open_dicht1
+   {
+       grid-area: open_dicht1;
+       font-size: 20px;
+       margin-top: 50px;
+   }
+
+   .open_text
+  {
+    color: green;
+  }
+
+
+   .close_text
+   {
+     color: red;
+   }
+
+   
+   #slider {
+    grid-area: slider;
+    position: relative;
+    width: 600px;
+    height: 400px;
+    margin: 20px auto;
+    overflow: hidden;
+    box-shadow: 0 0 30px gray
+
+  }
+  #slider ul {
+    position: relative;
+    height: 100%;
+    width: 10000%;
+    padding: 0;
+    margin: 0;
+
+    transition: all 500ms ease;
+  }
+  #slider ul li {
+    position: relative;
+    height: 100%;
+    float: left;
+  }
+  #slider ul li img{
+   width: 600px;
+    height: 400px;
+
+  }
+
+  #slider #prev, #slider #next {
+    width: 40px;
+    line-height: 40px;
+
+    font-size: 1.5rem;
+    text-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+    text-align: center;
+    color: black;
+    background: lightblue;
+    text-decoration: none;
+    position: absolute;
+    top: 50%;
+
+  }
+  #slider #prev:hover, #slider #next:hover {
+    background-color: rgba(173, 216, 230, 0.555);
+    text-shadow: 0;
+  }
+
+  #slider #next {
+    right: 0px;
+  }
+
+   @media only screen and (max-width: 600px) {
+    #slider {
+        width: 400px;
+        height: 300px;
+      }
+
+      #slider ul li img{
+        width: 400px;
+         height: 300px;
+       
+       }
+
+       .body_home
+   {
+       display: grid;
+       grid-template-columns: 1fr;
+       grid-template-rows: auto;
+       grid-template-areas:
+       "welkom"
+       "slider"
+       "open_dicht1"
+   }
+
+    #welkom
+    {
+      grid-area: welkom;
+    }
+
+    #slider
+    {
+      grid-area: slider;
+    }
+
+    #open_dicht1
+    {
+      grid-area: open_dicht1;
+      justify-self: center;     
+    }
+
+       
+
+   }
+
+
+
+
+
+   @media only screen and (min-width: 600px) and (max-width: 1000px) {
+
+
+    #slider {
+      width: 500px;
+      height: 300px;
+    }
+
+    #slider ul li img{
+      width: 500px;
+       height: 300px;
+     
+     }
+
+    .body_home
+   {
+       display: grid;
+       column-gap: 100px;
+       grid-template-columns: 1fr;
+       grid-template-rows: auto;
+       grid-template-areas:
+       "welkom"
+       "slider"
+       "open_dicht1"
+
+       
+   }
+
+    #welkom
+    {
+      grid-area: welkom;
+    }
+
+    #slider
+    {
+      grid-area: slider;
+    }
+
+    #open_dicht1
+    {
+      grid-area: open_dicht1;
+      justify-self: center;     
+    }
+
+  
+
+
+
+
+   }

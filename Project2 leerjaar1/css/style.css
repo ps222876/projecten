@@ -1,0 +1,192 @@
+.header {
+    text-align: center;
+    background: lightblue;
+    font-size: 30px;
+    overflow: hidden;
+    height: 100px;
+    margin-top: -10px;
+    margin-left: -10px;
+    margin-right: -10px;
+    align-items: center;
+    justify-content: space-between;
+
+
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: 0.7fr 1fr 0.1fr 0.4fr 0.1fr;
+    grid-row: auto;
+    grid-template-areas:
+    "logo header_txt zoek zoekbalk ."
+    
+    
+}
+#header_txt
+{
+    color: white;
+    grid-area: header_txt;
+}
+
+
+.nav {
+    background-color: gray;
+    overflow: hidden;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    font-size: 20px;
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-top: -10px;
+}
+
+
+
+#zoek
+{
+    justify-content: center;
+    height: 60px;
+    grid-area: zoek;
+}
+
+
+#zoekbalk
+{
+    justify-content: center;
+    height: 35px;
+    grid-area: zoekbalk
+}
+
+
+.menucolor {
+    color: white;
+    text-decoration: none;
+}
+
+
+a:hover {
+    color: lightblue
+}
+
+.active {
+    color: blue;
+}
+#logo
+{
+    height: 60px;
+    margin-left: 20px;
+}
+
+
+
+
+@media only screen and (max-width: 600px) {
+    .nav > a 
+    {
+        width: 100%;
+    }
+        .nav {
+            flex-direction: row;
+            height: auto;
+        }
+        .header{
+            height: 180px;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            grid-template-areas:
+            "logo header_txt"
+            "zoek zoekbalk"
+            
+        }
+
+        #logo
+        {
+            grid-area: logo;
+            margin-left: 10%;
+        }
+
+
+        #header_txt
+        {
+            grid-area: header_txt;
+            margin-right: 200px;
+            font-size: 21px;
+            /* width: 70%; */
+        }
+
+
+        #zoekbalk
+        {
+            grid-area: zoekbalk;
+            margin-right: 80px;
+            width: 60%;
+            height: 23px;
+            margin-bottom: 50px;
+        }
+
+        #zoek
+        {
+            grid-area: zoek;
+            margin-left: 100px;
+            margin-bottom: 48px;
+            height: 40px;
+        }
+        
+        
+        
+}
+
+
+@media only screen and (min-width: 600px) and (max-width: 1000px) {
+
+    .header{
+        height: 180px;
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        grid-template-areas:
+        "logo header_txt"
+        "zoek zoekbalk"
+        
+    }
+
+    #logo
+    {
+        grid-area: logo;
+        margin-left: 10%;
+    }
+
+    #header_txt
+    {
+        grid-area: header_txt;
+        font-size: 28px;
+        margin-left: -120px;
+    }
+
+    #zoekbalk
+    {
+        grid-area: zoekbalk;
+        margin-right: 80px;
+        width: 60%;
+        margin-bottom: 50px;
+    }
+
+    #zoek
+    {
+        grid-area: zoek;
+        margin-left: 100px;
+        margin-bottom: 48px;
+        height: 50px;
+    }
+    
+    #header_txt
+    {
+        margin-right: 140px;
+    }
+
+}
+
+
+
+
+
