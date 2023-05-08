@@ -1,0 +1,23 @@
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+x64/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+
+/Project4-KhaledMarijn/App.config
+
+*.tmp
+
+*.log
+
+*.class
+
+*.vsidx
+
+*.cache
+
+/.vs
