@@ -11,10 +11,16 @@ class ChannelController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Channel::All();
-    }
+        $request->user()->currentAccessToken()->delete();
+        $response = [
+            'success' => true,
+            'data'    => Channel::All(),
+            'access_token' => auth()->user()->createToken('API Token')->plainTextToken,
+            'token_type' => 'Bearer'
+        ];
+        return response()->json($response, 200);    }
 
     /**
      * Store a newly created resource in storage.
@@ -32,7 +38,8 @@ class ChannelController extends Controller
         if ($validator->fails()) {
             return response('{"Foutmelding":"Data not correct"}', 400)
                 ->header('Content-Type', 'application/json');
-        } else return Channel::create($request->all());    }
+        } else return Channel::create($request->all());    
+    }
 
     /**
      * Display the specified resource.

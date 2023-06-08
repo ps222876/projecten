@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2023 at 02:52 PM
+-- Generation Time: Jun 02, 2023 at 12:09 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -42,7 +42,9 @@ CREATE TABLE `channels` (
 --
 
 INSERT INTO `channels` (`id`, `name`, `subs`, `views`, `created_on`) VALUES
-(1, 'MrBeast', 146000000, 24764565810, '2012-02-20');
+(1, 'MrBeast', 146000000, 24764565810, '2012-02-20'),
+(2, 'PewDiePie ', 111000000, 29002199933, '2010-04-29'),
+(3, 'EminemMusic', 56400000, 26604285531, '2007-02-09');
 
 -- --------------------------------------------------------
 
@@ -115,6 +117,18 @@ CREATE TABLE `personal_access_tokens` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `personal_access_tokens`
+--
+
+INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
+(2, 'App\\Models\\User', 1, 'API Token', 'faa97b2f767ad867e7ba8642fcd167f283453ffca363ecc65abd54c0b4cdbc94', '[\"*\"]', NULL, NULL, '2023-05-25 11:12:01', '2023-05-25 11:12:01'),
+(5, 'App\\Models\\User', 1, 'API Token', 'bc49964929d28ae80dbe19e06f83661431f8abe7c69095886b92f5efdd004de6', '[\"*\"]', NULL, NULL, '2023-05-25 11:12:37', '2023-05-25 11:12:37'),
+(8, 'App\\Models\\User', 1, 'API Token', 'dd37bc2e7482e5dbeb8f3e7536577d4e658d273829766e4621531834d81f7409', '[\"*\"]', NULL, NULL, '2023-05-31 09:36:58', '2023-05-31 09:36:58'),
+(10, 'App\\Models\\User', 1, 'API Token', '25ee06171265dabbb9549b82a22ddb280ae3e7d28806ad986307e22329456c38', '[\"*\"]', NULL, NULL, '2023-05-31 09:37:30', '2023-05-31 09:37:30'),
+(19, 'App\\Models\\User', 1, 'API Token', '57e872608be0c48478077856ba37989722db2f91496604e770081aafa27383d6', '[\"*\"]', NULL, NULL, '2023-06-02 08:00:13', '2023-06-02 08:00:13'),
+(22, 'App\\Models\\User', 1, 'API Token', 'fe5ddebaa3d27e01babe4801028c5e78f31ab7ac2ed1cfd5f7cabff2078353b4', '[\"*\"]', NULL, NULL, '2023-06-02 08:00:32', '2023-06-02 08:00:32');
+
 -- --------------------------------------------------------
 
 --
@@ -131,6 +145,13 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'test', 'test@test.com', NULL, '$2y$10$hpXIb7jfaOnGwS/cbA8f5.S0vu5h1Y7LzijQm0kQNi7/d5w.VhKIy', NULL, '2023-05-25 11:11:22', '2023-05-25 11:11:22');
 
 -- --------------------------------------------------------
 
@@ -152,8 +173,12 @@ CREATE TABLE `videos` (
 
 INSERT INTO `videos` (`id`, `title`, `likes`, `uploaded_on`, `channel_id`) VALUES
 (1, 'I Hunted 100 People!', 2800000, '2022-09-03', 1),
-(2, 'I Sold My House for $1', 3500000, '2021-03-06', 1),
-(3, 'I Bought A Private Island', 3400000, '2020-08-13', 1);
+(2, 'Squid game in real life!', 16000000, '2021-11-24', 1),
+(3, 'I sold my house for $1', 3500000, '2021-03-06', 1),
+(4, 'Being followed by fans', 153000, '2023-03-28', 2),
+(5, 'Try not to laugh', 198000, '2023-04-16', 2),
+(6, 'Not afraid', 11000000, '2010-06-05', 3),
+(7, 'Without me', 12000000, '2009-06-17', 3);
 
 --
 -- Indexes for dumped tables
@@ -214,7 +239,7 @@ ALTER TABLE `videos`
 -- AUTO_INCREMENT for table `channels`
 --
 ALTER TABLE `channels`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -232,19 +257,19 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `videos`
 --
 ALTER TABLE `videos`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables

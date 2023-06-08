@@ -19,5 +19,19 @@ class ChannelsTableSeeder extends Seeder
             'views' => '24764565810',
             'created_on' => '2012-02-20',
         ]);
+
+        DB::table('channels')->insert([
+            'name' => 'PewDiePie ',
+            'subs' => '111000000',
+            'views' => '29002199933',
+            'created_on' => '2010-04-29',
+        ]);
+
+        DB::table('channels')->insert([
+            'name' => 'EminemMusic',
+            'subs' => '56400000',
+            'views' => '26604285531',
+            'created_on' => '2007-02-09',
+        ]);
     }
 }

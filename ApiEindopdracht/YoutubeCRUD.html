@@ -14,18 +14,25 @@
 	</style>	
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script> 
 </head> 
-<body onload="load()"> 
+<body> 
     <h1>Youtube CRUD</h1>  
 	<table><tr><th>Title</th><th>Uploaded On</th><th>Likes</th><th>Channel</th></tr>
 		<tbody id="tabelInhoud"/>
 	</table>
-	<div>
+	<div id="AddContainer" style="visibility: hidden">
 		<label>Title:</label><input type="text" placeholder="title" id="title" required/><br/>
 		<label>Uploaded on:</label><input type="text" placeholder="upload date" id="uploaded_on" /><br/>
 		<label>Likes:</label><input type="number" placeholder="likes" id="likes" min="0" max="99999999"/><br/>
 		<label>Channel:</label><select id="selectInhoud" ></select>
 		<button id="confirmButton" onclick="addVideo()">Toevoegen</button>
 	</div>
+
+		<H2 id="loginh2" style="visibility: visible;">Login</H2>
+		<div id="loginContainer" style="visibility: visible">
+			<input type="email" placeholder="mail" id="mail" required><br>
+			<input type="password" placeholder="wachtwoord" id="wachtwoord" required><br><br>
+			<button type="submit" onclick="login()">Login</button>
+		</div>
 	<footer>&copy; 2023</footer> 
 </body>
 
@@ -34,16 +41,30 @@
         const apiRoot = "http://127.0.0.1:8000/api/"
         const apiVideos = apiRoot + "videos/"
         const apiChannels = apiRoot + "channels/"
+		const apiLogin = apiRoot + "login/"
 		
 		let channels = []
 		let videos = []
+		let access_token = undefined
 		let video = ""
 
 		const loadChannels = async () => {                           
-            const response = await axios.get(apiChannels)
+            const response = await axios.get(apiChannels, 
+			{
+				headers: {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json',
+					'Authorization':'Bearer '+ access_token
+				}
+			})
             const json = await response.data
+			access_token = json.access_token
+			console.log("loadChannels",access_token)
+            // channels = json.data
+
 			let selectInhoud = ''
-			json.map(el => {
+			json.data.map(el => {
+				console.log('Test: '  + el.id + ' - ' + el.name)
 				channels[el.id] = el.name 
 				selectInhoud += `<option value="${el.id}">${el.name}</option>`
 			})
@@ -53,30 +74,75 @@
 		
 		const loadVideos = async () => {
 			console.log('Load videos')
-            const response = await axios.get(apiVideos)
-            videos = await response.data
+            const response = await axios.get(apiVideos, {
+				headers: {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json',
+					'Authorization':'Bearer '+ access_token
+				}
+			})
+
+			const json = await response.data
+			access_token = json.access_token
+			console.log("loadVideos",access_token)
+			videos = json.data
 		}
 
-		const loadVideo = async (id) => {
+		const loadSingleVideo = async (id) => {
 			console.log('Load video')
 			console.log(`${apiVideos}${id}`)
-            const response = await axios.get(`${apiVideos}${id}`)
-            video = await response.data
+			const response = await axios.get(`${apiVideos}${id}`,
+			{
+				headers: {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json',
+					'Authorization':'Bearer '+ access_token
+				}
+			}
+			),
+			
+			video = await response.data
+			access_token = await response.data.access_token
+			console.log("loadSingleVideo",access_token)
+			console.log(video);
 			fillUpdateForm(video)
 		}
 
-		const viewVideos = () => {
+		const displayVideos = () => {
 			let tabelInhoud = ''
 			videos.map(el => tabelInhoud += `<tr><td>${el.title}</td><td>${el.uploaded_on}</td><td>${el.likes}</td>
-								<td>${channels[el.channel_id]}</td><td><button onclick="loadVideo(${el.id})">Update</button></td><td onclick="verwijder(${el.id})"> x </td></tr>`) 
+								<td>${channels[el.channel_id]}</td><td><button onclick="loadSingleVideo(${el.id})">Update</button></td><td onclick="deleteVideo(${el.id})"> x </td></tr>`) 
 			document.querySelector("#tabelInhoud").innerHTML = tabelInhoud
 		}
 
-		const load = async () => {
+		const loadAll = async () => {
 			await loadChannels()
 			await loadVideos()
-			viewVideos()
+			displayVideos()
 		}
+
+
+
+
+		const login = async () => {
+			const password = document.querySelector("#wachtwoord").value
+			const email    = document.querySelector("#mail").value
+			const jsonstring = {"password":password, "email":email}
+//			const jsonstring = {"password":"geheim", "email":"test3@test.com"}
+			console.log("login: ", jsonstring)
+			const response = await axios.post(apiLogin, jsonstring, {headers: {'Content-Type': 'application/json'}})
+			console.log('status code', response.status)
+			// console.log(access_token);
+			access_token = await response.data.access_token
+			console.log('access_token: ', access_token)
+
+
+			document.querySelector("#loginh2").style.visibility = "hidden"
+			document.querySelector("#loginContainer").style.visibility = "hidden"
+			document.querySelector("#AddContainer").style.visibility = "visible"
+			loadAll()
+		}		
+
 
 		const addVideo = async () => {
 			const title     = document.querySelector("#title").value
@@ -85,14 +151,28 @@
 			const channel_id  = document.querySelector("#selectInhoud").value
 			const jsonstring = {"title":title, "likes":likes, "uploaded_on":uploaded_on, "channel_id":channel_id}
 			console.log("voeg toe: ",jsonstring)
-			const response = await axios.post(apiVideos, jsonstring, {headers: {'Content-Type': 'application/json'}})
+			const response = await axios.post(apiVideos, jsonstring, 
+			{headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json',
+				'Authorization':'Bearer '+ access_token
+			}
+		})
 			console.log('status code', response.status)
+
+			const json = await response.data
+			access_token = json.access_token
+			console.log('status code', response.status)
+
+
 			document.querySelector("#title").value = '';
 			document.querySelector("#likes").value = '';
 			document.querySelector("#uploaded_on").value = '';
 			await loadVideos()
-			viewVideos()
+			displayVideos()
 		}
+
+
 
 		function fillUpdateForm(video) {
 			const confirm = document.querySelector("#confirmButton")
@@ -102,18 +182,12 @@
 			const channel_id  = document.querySelector("#selectInhoud")
 
 			confirm.innerText = "Update"
-			confirm.setAttribute( "onClick", `javascript: updateVideo(${video["id"]});` );
-			title.value = video["title"]
-			likes.value = video["likes"]
-			uploaded_on.value = video["uploaded_on"]
-			// Nog aanpasssen naar channel naam!!
-			channel_id.value = video["channel_id"]
-			// console.log(JSON.stringify(video))
+			confirm.setAttribute( "onClick", `javascript: updateVideo(${video.data["id"]});` );
+			title.value = video.data["title"]
+			likes.value = video.data["likes"]
+			uploaded_on.value = video.data["uploaded_on"]
+			channel_id.value = video.data["channel_id"]
 
-			// const jsonstring = {"title":title, "likes":likes, "uploaded_on":uploaded_on, "channel_id":channel_id}
-			// console.log("voeg toe: ",jsonstring)
-			// const response = await axios.post(apiVideos, jsonstring, {headers: {'Content-Type': 'application/json'}})
-			// console.log('status code', response.status)
 		}
 
 		const updateVideo = async (id) => {
@@ -125,27 +199,39 @@
 			const channel_id  = document.querySelector("#selectInhoud").value;
 
 			console.log("1")
-			const response = await axios.put(`${apiVideos}${id}`, { "title": title.value, "likes": likes.value, "uploaded_on": uploaded_on.value, "channel_id": channel_id}, { headers: {'Content-Type': 'application/json'}})	
+			console.log(`${apiVideos}${id}`);
+			const response = await axios.put(`${apiVideos}${id}`, { "title": title.value, "likes": likes.value, "uploaded_on": uploaded_on.value, "channel_id": channel_id},
+			{headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json',
+				'Authorization':'Bearer '+ access_token
+			}})
+			const json = await response.data
+			access_token = json.access_token
 			console.log("2")
-			//console.log('status code', response.status)
 			title.value = '';
 			likes.value = '';
 			uploaded_on.value = '';
 			confirm.setAttribute( "onClick", "javascript: addVideo();" );
 			confirm.value = "Toevoegen"
-			console.log("3")
 			await loadVideos()
-			console.log("4")
-			viewVideos()
-			console.log("5")
+			displayVideos()
 		}
 
-		const verwijder = async (id) => {
+		const deleteVideo = async (id) => {
 			console.log("verwijder: ",id)
-			const response = await axios.delete(apiVideos+id)
+			const response = await axios.delete(apiVideos+id, {
+				headers: {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json',
+					'Authorization':'Bearer '+ access_token
+				}
+			})
+			const json = await response.data
+			access_token = json.access_token
 			console.log('status code', response.status)
 			await loadVideos()
-			viewVideos()
+			displayVideos()
 		}
 	</script>	
 </html>

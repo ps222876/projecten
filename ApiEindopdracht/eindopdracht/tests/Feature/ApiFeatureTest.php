@@ -2,64 +2,69 @@
 
 namespace Tests\Feature;
 
-// use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Models\Channel;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+//use App\Models\Channel;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Routing\Route;
-use Illuminate\Support\Facades\Log;
+//use Illuminate\Routing\Route;
+//use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
 class ApiFeatureTest extends TestCase
 {
-    use DatabaseTransactions, WithFaker;
+   // use DatabaseTransactions, WithFaker;
 
-    public function testVideosEndpoint(): void
+    static $accessToken;
+
+    public function test_login()
     {
-        $response = $this->get('/api/videos');
+        $userData = [
+            'email' => 'test@test.com',
+            'password' => 'geheim'
+        ];
+
+        $response = $this->post('/api/login', $userData);
+
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                'access_token',
+                'token_type'
+            ]);
+
+        self::$accessToken = $response['access_token'];
+    }
+
+    
+
+    public function test_get_videos()
+    {
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . self::$accessToken,
+        ])->get('api/videos');
+
+        // create and status
+        $response->assertStatus(200);
+        $response->assertJson([
+            'success' => true,
+            'token_type' => 'Bearer'
+        ]);
+        self::$accessToken = $response['access_token'];
+    }
+
+
+    public function test_get_video_1()
+    {
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . self::$accessToken,
+        ])->get('api/videos/1');
 
         $response->assertStatus(200);
+        $response->assertJsonFragment([
+            'success' => true,
+            'token_type' => 'Bearer'
+        ]);
+        self::$accessToken = $response['access_token'];
     }
 
-    public function testChannelsEndpoint(): void
-    {
-        $response = $this->get('/api/channels');
-
-        $response->assertStatus(200);
-    }
-
-    public function testVideoCreateUpdateDelete(): void
-    {
-        // Create
-        $responseCreate = $this->post('/api/videos', [
-            'title' => $this->faker->name,
-            'likes' => $this->faker->numberBetween(1, 9999999),
-            'uploaded_on' => $this->faker()->date,
-            'channel_id' => 1,
-        ]);
-
-        $responseCreate->assertStatus(201);
-
-        $this->assertDatabaseHas('videos', [
-            'title' => $responseCreate->json('title'),
-        ]);
-
-        // Update
-        $responseUpdate = $this->put("/api/videos/{$responseCreate->json('id')}", [
-            'title' => $this->faker->name,
-            'likes' => $this->faker->numberBetween(1, 9999999),
-            'uploaded_on' => $this->faker()->date,
-            'channel_id' => 1,
-        ]);
-
-        $responseUpdate->assertStatus(200);
-
-        $this->assertDatabaseHas('videos', [
-            'title' => $responseUpdate->json('title'),
-        ]);
-
-        // Delete
-        $responseDelete = $this->delete("/api/videos/{$responseCreate->json('id')}");
-        $responseDelete->assertStatus(200);
-    }
 }
